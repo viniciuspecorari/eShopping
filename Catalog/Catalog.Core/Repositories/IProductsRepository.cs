@@ -9,12 +9,12 @@ namespace Catalog.Core.Repositories
 {
     public interface IProductsRepository
     {
-        Task<IEnumerable<Product>> GetAllProducts();
-        Task<Product> GetProduct(string Id);
-        Task<IEnumerable<Product>> GetProductByName(string Name);
+        Task<IEnumerable<Product>> GetProducts();
+        Task<Product> GetProduct(string id);
+        Task<IEnumerable<Product>> GetProductByName(string name);
         Task<IEnumerable<Product>> GetProductByBrand(string brandName);
         Task<Product> CreateProduct(Product product);
         Task<bool> UpdateProduct(Product product);
-        Task<bool> DeleteProduct(string Id);
+        Task<bool> DeleteProduct(string id);
     }
 }
