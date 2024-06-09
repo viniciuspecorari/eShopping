@@ -2,12 +2,6 @@
 using Catalog.Core.Repositories;
 using Catalog.Infrastructure.Data;
 using MongoDB.Driver;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 
 namespace Catalog.Infrastructure.Repositories
 {
