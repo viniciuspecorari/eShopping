@@ -5,12 +5,13 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
-using System.Security.Cryptography.Xml;
-using System.Threading.RateLimiting;
+using System.Threading.Tasks;
 
 namespace Catalog.API.Controllers
 {
-    public class CatalogController : ApiController
+    [ApiController]
+    [Route("api/v{version:apiVersion}/[controller]")]
+    public class CatalogController : ControllerBase
     {
         private readonly IMediator _mediator;
 
@@ -19,8 +20,7 @@ namespace Catalog.API.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet]
-        [Route("{action}/{id}", Name = "GetProductById")]
+        [HttpGet("GetProductById/{id}")]
         [ProducesResponseType(typeof(ProductResponse), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ProductResponse>> GetProductById(string id)
         {
@@ -30,8 +30,7 @@ namespace Catalog.API.Controllers
             return Ok(response);
         }
 
-        [HttpGet]
-        [Route("{action}/{id}", Name = "GetProductByName")]
+        [HttpGet("GetProductByName/{name}")]
         [ProducesResponseType(typeof(IList<ProductResponse>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<IList<ProductResponse>>> GetProductByName(string name)
         {
@@ -41,8 +40,7 @@ namespace Catalog.API.Controllers
             return Ok(response);
         }
 
-        [HttpGet]
-        [Route("GetAllProducts")]
+        [HttpGet("GetAllProducts")]
         [ProducesResponseType(typeof(IList<ProductResponse>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<IList<ProductResponse>>> GetAllProducts()
         {
@@ -52,8 +50,7 @@ namespace Catalog.API.Controllers
             return Ok(response);
         }
 
-        [HttpGet]
-        [Route("GetAllBrands")]
+        [HttpGet("GetAllBrands")]
         [ProducesResponseType(typeof(IList<BrandsResponse>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<IList<BrandsResponse>>> GetAllBrands()
         {
@@ -63,8 +60,7 @@ namespace Catalog.API.Controllers
             return Ok(response);
         }
 
-        [HttpGet]
-        [Route("GetAllTypes")]
+        [HttpGet("GetAllTypes")]
         [ProducesResponseType(typeof(IList<TypesResponse>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<IList<TypesResponse>>> GetAllTypes()
         {
@@ -74,8 +70,7 @@ namespace Catalog.API.Controllers
             return Ok(response);
         }
 
-        [HttpGet]
-        [Route("{action}/{id}", Name = "GetProductByBrandName")]
+        [HttpGet("GetProductByBrandName/{name}")]
         [ProducesResponseType(typeof(IList<ProductResponse>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<IList<ProductResponse>>> GetProductByBrandName(string name)
         {
@@ -85,8 +80,7 @@ namespace Catalog.API.Controllers
             return Ok(response);
         }
 
-        [HttpPost]
-        [Route("CreateProduct")]
+        [HttpPost("CreateProduct")]
         [ProducesResponseType(typeof(ProductResponse), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ProductResponse>> CreateProduct([FromBody] CreateProductCommand command)
         {
@@ -94,8 +88,7 @@ namespace Catalog.API.Controllers
             return Ok(newProduct);
         }
 
-        [HttpPut]
-        [Route("UpdateProduct")]
+        [HttpPut("UpdateProduct")]
         [ProducesResponseType(typeof(ProductResponse), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> UpdateProduct([FromBody] UpdateProductCommand command)
         {
@@ -103,8 +96,7 @@ namespace Catalog.API.Controllers
             return Ok(updatedProduct);
         }
 
-        [HttpDelete]
-        [Route("{action}/{id}", Name = "DeleteProduct")]
+        [HttpDelete("DeleteProduct/{id}")]
         [ProducesResponseType(typeof(ProductResponse), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> DeleteProduct(string id)
         {

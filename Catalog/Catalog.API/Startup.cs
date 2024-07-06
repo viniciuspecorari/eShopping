@@ -1,25 +1,21 @@
-﻿using Catalog.Application.Handlers;
-using Catalog.Core.Repositories;
+﻿using Catalog.Core.Repositories;
 using Catalog.Infrastructure.Data;
 using Catalog.Infrastructure.Repositories;
 using HealthChecks.UI.Client;
 using MediatR;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.OpenApi.Models;
-using System.Reflection;
 
 namespace Catalog.API
 {
     public class Startup
     {
-
         private readonly IConfiguration _configuration;
 
         public Startup(IConfiguration configuration)
         {
-           _configuration = configuration;
+            _configuration = configuration;
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -27,16 +23,14 @@ namespace Catalog.API
             services.AddControllers();
             services.AddApiVersioning();
             services.AddHealthChecks().AddMongoDb(
-                _configuration["Databasesettings:ConnectionString"]
-                , "Catalog Mongo Db Health Check"
-                , HealthStatus.Degraded
-                );
-            services.AddSwaggerGen((c =>
+                _configuration["Databasesettings:ConnectionString"],
+                "Catalog Mongo Db Health Check",
+                HealthStatus.Degraded
+            );
+            services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc(
-                    "v1", 
-                    new OpenApiInfo { Title = "Catalog API", Version = "v1"});
-            }));
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Catalog API", Version = "v1" });
+            });
 
             services.AddAutoMapper(typeof(Startup));
             services.AddMediatR(typeof(Startup));
@@ -44,8 +38,7 @@ namespace Catalog.API
             services.AddScoped<IProductsRepository, ProductRepository>();
             services.AddScoped<IBrandRepository, ProductRepository>();
             services.AddScoped<ITypesRepository, ProductRepository>();
-
-        }            
+        }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
@@ -64,7 +57,7 @@ namespace Catalog.API
                 endpoints.MapControllers();
                 endpoints.MapHealthChecks("/health", new HealthCheckOptions()
                 {
-                    Predicate =_ => true,
+                    Predicate = _ => true,
                     ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
                 });
             });
